@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2016 11:09:50 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="fa.model.Client" table="client" catalog="jbossfaktur" optimistic-lock="version">
+        <id name="idklien" type="java.lang.Integer">
+            <column name="idklien" />
+            <generator class="identity" />
+        </id>
+        <property name="nama" type="string">
+            <column name="nama" length="80" not-null="true" />
+        </property>
+        <property name="telepon" type="string">
+            <column name="telepon" length="12" not-null="true" />
+        </property>
+        <property name="celuler" type="string">
+            <column name="celuler" length="12" not-null="true" />
+        </property>
+        <property name="alamat" type="string">
+            <column name="alamat" length="100" not-null="true" />
+        </property>
+        <set name="fakturs" table="faktur" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idklien" not-null="true" />
+            </key>
+            <one-to-many class="fa.model.Faktur" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Faktur Login Pages</title>
+        <h:outputStylesheet name="css/style.css"/>
+    </h:head>
+    <h:body>
+        <div class="paper">
+            <h:form id="formLogin">
+                <p:growl id="MessageGeneral" sticky="true" showDetail="true" life="2000"/>
+
+                <p:panel header="Login pages" widgetVar="dialogLogin" style="text-align: center">
+                    <p:panelGrid columns="2" style="width: 100%">
+                        <h:outputLabel for="nama" value="User Name"/>
+                        <p:inputText id="nama" value="#{logMB.us.nama}" placeholder="User Name" required="true" label="nama"
+                                     requiredMessage="username INVALID" style="width: 95%"/>
+
+                        <h:outputLabel for="pass" value="passWord"/>
+                        <p:password id="pass" value="#{logMB.us.pass}" placeholder="passWord" required="true" label="pass"
+                                    requiredMessage="password INVALID" style="width: 95%"/>
+
+                    </p:panelGrid><p:separator/><p:separator/>
+                    <p:panelGrid columns="1" style="width: 100%">
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" update="formLogin" actionListener="#{logMB.Login(event)}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" style="width: 100%"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.ValidatonFailed || !args.loggedIn)
+                {
+                    jQuery('#formLogin').effect('shake', {time: 3}, 350);
+                } else {
+                    location.href = args.rules;
+                }
+            }
+        </script>
+    </h:body>
+</html>
+

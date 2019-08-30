@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+
+        <title>FAKTUR</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <h1>SISTEM INFORMASI FAKTUR PENJUALAN</h1>
+            <div id="sessionuser">
+                <span>
+                    <h:form>
+                        <p:outputLabel value="Hello "/>
+                        <h:outputText value="#{logMB.us.vendor.nama}"/>
+                        <p:commandButton id="btnlogout" value="Log out" action="#{logMB.cerrarSession()}"/>
+                    </h:form>
+                </span>
+            </div>
+
+            <div id="menu">
+                <h:form>
+
+                    <p:menubar>
+                        <p:submenu label="file" icon="ui-icon-document">
+                            <p:menuitem value="welcome" outcome="/planing/planing" icon=""/>
+                            <p:separator/> 
+                            <p:menuitem value="front page" outcome="/views/penjualan" icon=""/>
+                            <p:separator/> 
+                        </p:submenu>
+
+                        <p:submenu label="Client" icon="ui-icon-pencil">
+                            <p:menuitem value="Data Client" outcome="/views/client/clientpage" icon=""/>
+                        </p:submenu>
+
+                        <p:submenu label="Vendor" icon="ui-icon-pencil">
+                            <p:menuitem value="Data Vendor" outcome="/views/vendor/vendorpage" icon=""/>
+                        </p:submenu>
+
+                        <p:submenu label="Produk" icon="ui-icon-pencil">
+                            <p:menuitem value="Data Produk" outcome="/views/produk/produkpage" icon=""/>
+                        </p:submenu>
+
+                        <p:submenu label="Penjualan" icon="ui-icon-pencil">
+                            <p:menuitem value="Nota Faktur" outcome="/views/penjualan/faktur" icon=""/>
+                            <p:menuitem value="Listing Faktur" outcome="/views/penjualan/ListFaktur" icon=""/>
+                            <p:menuitem value="Data Faktur" outcome="/views/penjualan/detilfakturList" icon=""/>
+                        </p:submenu>
+
+                    </p:menubar>
+
+                </h:form>
+            </div>
+
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">
+                <h3 align="center">INFORMASI DATA PENJUALAN<br/>Hello, Welcome..!</h3>
+            </ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">&copy; 2016-@gauzt50420 <br/>UNINDRA<br/>
+                @Lovely Class_R 2011</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

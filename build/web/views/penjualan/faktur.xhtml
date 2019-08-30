@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../planing/planing.xhtml">
+
+            <ui:define name="content">
+                
+                <h2>Data Faktur Penjualan</h2>
+                
+                <h:form>
+                    <h:panelGrid width="86%" style="margin: 0 auto; background-color: graytext">
+                        <p:commandButton value="New Faktur-id" actionListener="#{faktureMB.getnomerfaktur()}" 
+                                         style="width: 160px; height: 35px" update=":formFaktur"
+                                         action="#{faktureMB.enableButton()}"/>
+                    </h:panelGrid>
+                </h:form>
+                
+                
+                <h:form id="formFaktur">
+                    <p:growl id="messageGeneral" showDetail="true" autoUpdate="true" life="2500"/>
+                    <p:panel header="_*_" style=" width: 85%; margin: 0 auto; text-align: center">
+                        
+                        <p:layout id="updatedatafaktur" style="width: 100%; height: 120px">
+                            <p:layoutUnit id="dataklien" position="center" style="padding: 5px; text-align: justify;
+                                          font-size: 12px;" size="80%">
+                               
+                                
+                                <h:panelGrid id="gridcaridataklien" columns="5">
+                                    <p:outputLabel value="inputkan id(data KLIEN)" style="font-weight: bold;"/>
+                                    <p:inputText id="txtklien" value="#{faktureMB.kodeklien}" size="14"
+                                        converter="#{Integer}" converterMessage="inputan kode Klien harus angka"
+                                        disabled="#{!faktureMB.enable}">
+                                        <p:ajax event="keyup" listener="#{faktureMB.getkodeklienitu()}"
+                                                update=":formFaktur:griddataklien :formFaktur:txtklien"/>
+                                    </p:inputText>
+                                    <p:commandButton value=".#!@!#." oncomplete="PF('dialogklient').show();"
+                                       update="formFaktur:dlgklien" disabled="#{!faktureMB.enable}" style="border-left-width: 20px"/>
+                                    
+                                    <p:outputLabel value="tanggal:" style="font-weight: bold;"/>
+                                    <p:outputLabel value="#{faktureMB.kalenderSystem}" style="font-weight: bold;"/>
+                                </h:panelGrid>
+
+                                
+                                <p:separator/>
+                                <p:panelGrid id="griddataklien" columns="2">
+                                    <p:outputLabel value="nama " style="font-weight: bold;"/>
+                                    <p:outputLabel id="labelnamaklient" value="#{faktureMB.client.nama}" style="font-weight: bold;"/>
+
+                                    <p:outputLabel value="alamat" style="font-weight: bold;"/>
+                                    <p:outputLabel id="labelalamatklient" value="#{faktureMB.client.alamat}" style="font-weight: bold;"/>
+                                </p:panelGrid>
+                            </p:layoutUnit>
+
+                            <p:layoutUnit id="datafaktur" position="east" style="padding: 5px; text-align: center;
+                                          font-size: 12px;" size="25%">
+                                <p:panelGrid columns="1" style="font-size: 20px; font-weight: bold; margin-top: 30px; margin: 0 auto;">
+                                    NO SERI FAKTUR :
+                                    <p:outputLabel value="#{faktureMB.nofaktur}"/>
+                                </p:panelGrid>
+                            </p:layoutUnit>
+                        </p:layout>
+
+                        <p:separator/>
+                        <h:panelGrid id="gridkuantitasi" columns="3">
+                            <p:outputLabel value="inputkan kode(data PRODUK)" style="font-weight: bold;"/>
+                            <p:inputText id="txtkodeproduk" value="#{faktureMB.kodeproduk}"
+                                         size="14" disabled="#{!faktureMB.enable}">
+                                <p:ajax event="keyup" listener="#{faktureMB.getkuantitasini()}"
+                                        update=":formFaktur:gridkuantitasi"/>
+                            </p:inputText>
+                            <p:commandButton value=".@$$$@." oncomplete="PF('dialogProduk').show();"
+                               style="border-left-width: 20px" update="formFaktur:dlgkuantitas" disabled="#{!faktureMB.enable}"/>
+                        </h:panelGrid>
+
+                        <p:separator/>
+                        <p:dataTable id="tabelfakturproduk" var="item" value="#{faktureMB.deList}"
+                                     editable="true" rowIndexVar="rowindex">
+                            <p:ajax event="rowEdit" listener="#{faktureMB.onRowEdit(event)}"
+                                    update=":formFaktur:tabelfakturproduk :formFaktur:gridnota"/>
+                            <p:ajax event="rowEditCancel" listener="#{faktureMB.onRowCancel(event)}"
+                                    update=":formFaktur:tabelfakturproduk :formFaktur:gridnota"/>
+                            <p:column headerText="kode produk">
+                                <h:outputText value="#{item.kodeproduk}"/>
+                            </p:column>
+                            <p:column headerText="nama produk">
+                                <h:outputText value="#{item.namaproduk}"/>
+                            </p:column>
+                            <p:column headerText="kuantitas">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.jumlah}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{item.jumlah}" label="kuantitas"
+                                            required="true" requiredMessage="kolom kuantitas masih kosong"
+                                            converter="#{Integer}" converterMessage="input kuantitas harus angka"
+                                            validatorMessage="input kuantitas harus di isi">
+                                            <f:validateLongRange minimum="1"/>
+                                        </p:inputText>
+                                    </f:facet>
+                                </p:cellEditor>  
+                            </p:column>
+                            <p:column headerText="harga jual">
+                                <h:outputText value="Rp #{item.hargajual}"/>
+                            </p:column>
+                            <p:column headerText="total">
+                                <h:outputText value="Rp #{item.totalharga}"/>
+                            </p:column>
+                            <p:column headerText="edit kuantitas-nya">
+                                <p:rowEditor/>
+                            </p:column>
+                            <p:column headerText="hapus itemList!">
+                                <p:commandLink value="x" title="cancel belanja!"  actionListener="#{faktureMB.batalin(item.kodeproduk, rowindex)}"
+                                    style="text-decoration: none; color: red;"
+                                    update=":formFaktur:tabelfakturproduk :formFaktur:gridnota"/>
+                            </p:column>
+                        </p:dataTable>
+                        
+                        
+                        <p:separator/>
+                        <h:panelGrid id="gridnota" columns="2" style="font-size: 18px; margin: 0 auto">
+                            <p:outputLabel value="TOTAL BAYAR : " style="font-weight: bold;"/>
+                            <p:outputLabel value="Rp #{faktureMB.totaljual}" style="font-weight: bold;"/>
+                        </h:panelGrid>
+                        
+                        
+                        <p:separator/>
+                        <p:commandButton value="simpan" actionListener="#{faktureMB.savefakturnya()}"
+                                         style="font-weight: bold; width: 120px; height: 30px;"
+                                         update="formFaktur" disabled="#{!faktureMB.enable}"
+                                         action="#{faktureMB.disableButton()}"/><p:spacer/><p:spacer/><p:spacer/>
+                        <p:spacer/><p:spacer/><p:spacer/><p:spacer/><p:spacer/>
+                        <p:spacer/><p:spacer/><p:spacer/>
+                        <p:spacer/><p:spacer/><p:spacer/><p:spacer/><p:spacer/>
+                        <p:commandButton value="cancel" action="#{faktureMB.pembatalanFaktur()}"
+                                         style="font-weight: bold; width: 120px; height: 30px;"
+                                         update="formFaktur" disabled="#{!faktureMB.enable}"/>
+                        <p:separator/>
+                        <p:commandButton value="Printing Nota Faktur" type="button" icon="ui-icon-print" style="display: block; font-weight: 
+                          bold; width: 180px; height: 50px;" disabled="#{!faktureMB.enable}">
+                            <p:printer target="formFaktur"/>
+                        </p:commandButton>
+                    </p:panel>
+
+
+                    
+                    <p:dialog id="dlgklien" widgetVar="dialogklient" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode">
+                        <p:dataTable id="tableclient" paginator="true" paginatorPosition="top" 
+                                     style="width: 600px" var="ct" value="#{clientMB.calist}" emptyMessage="data tidak ditemukan">
+                            <p:column headerText="id No">
+                                <h:outputText value="#{ct.idklien}"/>
+                            </p:column>
+                            <p:column headerText="nama">
+                                <h:outputText value="#{ct.nama}"/>
+                            </p:column>
+                            <p:column headerText="kota">
+                                <h:outputText value="#{ct.alamat}"/>
+                            </p:column>
+                            <p:column headerText="">
+                                <p:commandButton value="select" actionListener="#{faktureMB.getkodeklien(ct.idklien)}"
+                                                 oncomplete="PF('dialogklient').hide();"
+                                                 update=":formFaktur:griddataklien">
+                                </p:commandButton>
+                            </p:column>                          
+                        </p:dataTable>
+                        <p:commandButton value="cancel" onclick="PF('dialogklient').hide();"/>
+                    </p:dialog>
+
+
+                    
+                    <p:dialog id="dlgProduk" widgetVar="dialogProduk" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode">
+                        <p:dataTable id="tableProduk" paginator="true" paginatorPosition="top" 
+                                     style="width: 600px" var="pro" value="#{produkMB.prolist}" emptyMessage="data tidak ditemukan">
+                            <p:column headerText="id No">
+                                <h:outputText value="#{pro.idproduk}"/>
+                            </p:column>
+                            <p:column headerText="nama">
+                                <h:outputText value="#{pro.namaproduk}"/>
+                            </p:column>
+                            <p:column headerText="harga">
+                                <h:outputText value="#{pro.hargajual}"/>
+                            </p:column>
+                            <p:column headerText="stok">
+                                <h:outputText value="#{pro.stokterkini}"/>
+                            </p:column>
+                            <p:column headerText="kode produk">
+                                <h:outputText value="#{pro.kodeproduk}"/>
+                            </p:column>
+                            <p:column headerText="">
+                                <p:commandButton value="select" actionListener="#{faktureMB.getkuatitasproduk(pro.kodeproduk)}"
+                                                 oncomplete="PF('dialogkuantitas').show();"
+                                                 update=":formFaktur:dlgkuantitas">
+                                </p:commandButton>
+                            </p:column>                          
+                        </p:dataTable>
+                        <p:commandButton value="cancel" onclick="PF('dialogProduk').hide();"/>
+                    </p:dialog>
+
+
+                    
+                    <p:dialog id="dlgkuantitas" widgetVar="dialogkuantitas" header="kuantitas" modal="true">
+                        Kuantitas penjualan produk
+                        <p:inputText id="textkuantitas" value="#{faktureMB.kuantitas}"/>
+                        <p:commandButton value="select" 
+                                         actionListener="#{faktureMB.getkodeproduk()}" 
+                                         update=":formFaktur:tabelfakturproduk :formFaktur:dlgkuantitas :formFaktur:gridnota"
+                                         oncomplete="PF('dialogkuantitas').hide(); PF('dialogProduk').hide();">
+                        </p:commandButton>
+                    </p:dialog>
+                    
+                     <p:dialog id="dlgkuantitasi" widgetVar="dialogkuantitasi" header="kuantitasi" modal="true">
+                        Kuantitas penjualan produk
+                        <p:inputText id="textkuantitasi" value="#{faktureMB.kuantitasini}"/>
+                        <p:commandButton value="select" 
+                                         actionListener="#{faktureMB.getkodeprodukini()}" 
+                                         update=":formFaktur:tabelfakturproduk :formFaktur:dlgkuantitasi :formFaktur:gridnota"
+                                         oncomplete="PF('dialogkuantitasi').hide();">
+                        </p:commandButton>
+                    </p:dialog>
+
+                </h:form>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

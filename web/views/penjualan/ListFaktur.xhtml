@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../planing/planing.xhtml">
+
+            <ui:define name="content">
+                
+                <h:form>
+                    <p:dataTable paginator="true" paginatorPosition="top"
+                                 var="fa" value="#{listfakturMB.listfa}">
+                                 
+                        <p:column headerText="id No">
+                            <h:outputText value="#{fa.idfaktur}"/>
+                        </p:column>
+                        
+                        <p:column headerText="no faktur">
+                            <h:outputText value="#{fa.nofaktur}"/>
+                        </p:column>
+                        
+                        <p:column headerText="tanggal transaksi">
+                            <h:outputText value="#{fa.register}"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

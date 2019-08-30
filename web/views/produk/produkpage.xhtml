@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../planing/planing.xhtml">
+
+            <ui:define name="content">
+                <h2>Data Produk</h2>
+
+                <h:form>
+                    <p:commandButton value="input data baru" actionListener="#{produkMB.prosesdata()}"
+                                     oncomplete="PF('dialogdatabaru').show();" update=":databaru"/>
+                </h:form>
+                <h:form id="formdialogproduk">
+                    <p:dataTable id="tableproduk" paginator="true" paginatorPosition="top" 
+                                 var="p" value="#{produkMB.prolist}" emptyMessage="data tidak ditemukan">
+                        <p:column headerText="id No">
+                            <h:outputText value="#{p.idproduk}"/>
+                        </p:column>
+                        <p:column headerText="nama">
+                            <h:outputText value="#{p.namaproduk}"/>
+                        </p:column>
+                        <p:column headerText="harga">
+                            <h:outputText value="#{p.hargajual}"/>
+                        </p:column>
+                        <p:column headerText="stok minimal">
+                            <h:outputText value="#{p.stokminimal}"/>
+                        </p:column>
+                        <p:column headerText="update stok">
+                            <h:outputText value="#{p.stokterkini}"/>
+                        </p:column>
+                        <p:column headerText="kode produk">
+                            <h:outputText value="#{p.kodeproduk}"/>
+                        </p:column>
+                        <p:column headerText="update data">
+                            <p:commandButton value="update data" oncomplete="PF('dialogupdatedata').show();"
+                                             update=":updatedata">
+                                <f:setPropertyActionListener target="#{produkMB.pro}" value="#{p}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="hapus data">
+                            <p:commandButton value="hapus data" oncomplete="PF('dialoghapusdata').show();"
+                                             update=":hapusdata">
+                                <f:setPropertyActionListener target="#{produkMB.pro}" value="#{p}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h:form id="databaru">
+                    <p:dialog id="dlgdatabaru" widgetVar="dialogdatabaru" 
+                              resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="nama"/>
+                            <p:inputText value="#{produkMB.pro.namaproduk}"/>
+                            <p:outputLabel value="harga jual"/>
+                            <p:inputText value="#{produkMB.pro.hargajual}"/>
+                            <p:outputLabel value="stok terakhir"/>
+                            <p:inputText value="#{produkMB.pro.stokminimal}"/>
+                            <p:outputLabel value="stok update"/>
+                            <p:inputText value="#{produkMB.pro.stokterkini}"/>
+                            <p:outputLabel value="kode produk"/>
+                            <p:inputText value="#{produkMB.pro.kodeproduk}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="simpan data" actionListener="#{produkMB.databaru()}"
+                                         update=":formdialogproduk:tableproduk" oncomplete="PF('dialogdatabaru').hide();"/>
+                        <p:commandButton value="Cancel" onclick="PF('dialogdatabaru').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="updatedata">
+                    <p:dialog id="dlgupdatedata" widgetVar="dialogupdatedata" 
+                              resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="nama"/>
+                            <p:inputText value="#{produkMB.pro.namaproduk}"/>
+                            <p:outputLabel value="harga jual"/>
+                            <p:inputText value="#{produkMB.pro.hargajual}"/>
+                            <p:outputLabel value="stok terakhir"/>
+                            <p:inputText value="#{produkMB.pro.stokminimal}"/>
+                            <p:outputLabel value="stok update"/>
+                            <p:inputText value="#{produkMB.pro.stokterkini}"/>
+                            <p:outputLabel value="kode produk"/>
+                            <p:inputText value="#{produkMB.pro.kodeproduk}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="simpan data" actionListener="#{produkMB.dataupdate()}"
+                                         update=":formdialogproduk:tableproduk" oncomplete="PF('dialogupdatedata').hide();"/>
+                        <p:commandButton value="Cancel" onclick="PF('dialogupdatedata').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="hapusdata">
+                    <p:dialog id="dlghapusdata" widgetVar="dialoghapusdata" 
+                              resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <h:outputText value="YAKIN HAPUS DATA-NYA!!!"/><br/><br/>
+                        <p:commandButton value="hapus?" actionListener="#{produkMB.hapusdata()}"
+                                         update=":formdialogproduk:tableproduk" oncomplete="PF('dialoghapusdata').hide();"/>
+                        <p:commandButton value="Cancel" onclick="PF('dialoghapusdata').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

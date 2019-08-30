@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2016 11:09:50 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="fa.model.Users" table="users" catalog="jbossfaktur" optimistic-lock="version">
+        <id name="iduser" type="java.lang.Integer">
+            <column name="iduser" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="vendor" class="fa.model.Vendor" fetch="select">
+            <column name="idvendor" not-null="true" />
+        </many-to-one>
+        <property name="nama" type="string">
+            <column name="nama" length="20" not-null="true" />
+        </property>
+        <property name="pass" type="string">
+            <column name="pass" length="150" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

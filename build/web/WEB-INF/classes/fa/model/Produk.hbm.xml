@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2016 11:09:50 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="fa.model.Produk" table="produk" catalog="jbossfaktur" optimistic-lock="version">
+        <id name="idproduk" type="java.lang.Integer">
+            <column name="idproduk" />
+            <generator class="identity" />
+        </id>
+        <property name="namaproduk" type="string">
+            <column name="namaproduk" length="80" not-null="true" />
+        </property>
+        <property name="hargajual" type="big_decimal">
+            <column name="hargajual" precision="10" not-null="true" />
+        </property>
+        <property name="stokminimal" type="int">
+            <column name="stokminimal" not-null="true" />
+        </property>
+        <property name="stokterkini" type="int">
+            <column name="stokterkini" not-null="true" />
+        </property>
+        <property name="kodeproduk" type="string">
+            <column name="kodeproduk" length="40" not-null="true" />
+        </property>
+        <set name="detilfakturs" table="detilfaktur" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idproduk" not-null="true" />
+            </key>
+            <one-to-many class="fa.model.Detilfaktur" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2016 11:09:50 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="fa.model.Detilfaktur" table="detilfaktur" catalog="jbossfaktur" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="faktur" class="fa.model.Faktur" fetch="select">
+            <column name="idfaktur" not-null="true" />
+        </many-to-one>
+        <many-to-one name="produk" class="fa.model.Produk" fetch="select">
+            <column name="idproduk" not-null="true" />
+        </many-to-one>
+        <property name="kodeproduk" type="string">
+            <column name="kodeproduk" length="40" not-null="true" />
+        </property>
+        <property name="namaproduk" type="string">
+            <column name="namaproduk" length="80" not-null="true" />
+        </property>
+        <property name="jumlah" type="int">
+            <column name="jumlah" not-null="true" />
+        </property>
+        <property name="hargajual" type="big_decimal">
+            <column name="hargajual" precision="10" not-null="true" />
+        </property>
+        <property name="totalharga" type="big_decimal">
+            <column name="totalharga" precision="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

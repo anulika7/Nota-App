@@ -1,5 +1,6 @@
 # Nota-App
-Aplikasi dengan bahasa pemograman Java
+Aplikasi dengan bahasa pemograman Java.
+Java Web (Java Server Faces dengan integrasi Mysql, Primefaces dan Hibernate ORM)
 Jika ingin mencaoba di perangkat anda 
 Pilih folder dist dan ambil file dengan ekstensi war
 Pastikan perangkat anda sudah terinstall JDK versi 8
